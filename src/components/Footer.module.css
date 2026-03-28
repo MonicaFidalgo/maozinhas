@@ -1,0 +1,37 @@
+.footer {
+  background: var(--charcoal);
+  color: rgba(253,248,242,.7);
+  padding: 3rem 2rem 1.5rem;
+  margin-top: 5rem;
+}
+.inner {
+  max-width: 1100px; margin: 0 auto;
+  display: grid; grid-template-columns: 2fr 1fr 1fr;
+  gap: 3rem;
+}
+.brand .brandName {
+  font-family: var(--font-display);
+  font-size: 1.1rem; font-weight: 700;
+  color: rgba(253,248,242,.95);
+  display: block; margin-bottom: .5rem;
+}
+.brand p { font-size: .875rem; line-height: 1.65; max-width: 300px; }
+.footer h4 {
+  font-size: .75rem; font-weight: 500;
+  letter-spacing: .08em; text-transform: uppercase;
+  color: rgba(253,248,242,.45); margin-bottom: .9rem;
+}
+.footer ul { list-style: none; display: flex; flex-direction: column; gap: .45rem; }
+.footer li { font-size: .875rem; }
+.footer li a { color: rgba(253,248,242,.7); transition: color .15s; }
+.footer li a:hover { color: #F5A484; }
+.bottom {
+  max-width: 1100px; margin: 2rem auto 0;
+  padding-top: 1.25rem;
+  border-top: 1px solid rgba(253,248,242,.1);
+  font-size: .78rem; color: rgba(253,248,242,.4);
+  text-align: center;
+}
+@media (max-width: 700px) {
+  .inner { grid-template-columns: 1fr; gap: 2rem; }
+}
