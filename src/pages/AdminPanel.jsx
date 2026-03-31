@@ -216,18 +216,22 @@ export default function AdminPanel() {
                     required
                   />
                 </div>
+
                 <div className={styles.group}>
                   <label>
-                    Slug *{" "}
+                    Slug{" "}
                     <span className={styles.hint}>
-                      (URL: /animal/este-valor)
+                      (gerado automaticamente)
                     </span>
                   </label>
                   <input
                     value={form.slug}
-                    onChange={(e) => handleField("slug", e.target.value)}
-                    placeholder="ex: acordeon"
-                    required
+                    readOnly
+                    style={{
+                      opacity: 0.5,
+                      cursor: "not-allowed",
+                      background: "var(--border)",
+                    }}
                   />
                 </div>
                 <div className={styles.row2}>
@@ -291,27 +295,14 @@ export default function AdminPanel() {
                     </div>
                   )}
                 </div>
-                {form.type !== "gato" && (
-                  <div className={styles.group}>
-                    <label>Ano de nascimento</label>
-                    <input
-                      value={form.born_year}
-                      onChange={(e) => handleField("born_year", e.target.value)}
-                      placeholder="ex: 2019 ou Indeterminada"
-                      style={{ display: form.type === "gato" ? "none" : "" }}
-                    />
-                  </div>
-                )}
-                {form.type === "gato" && (
-                  <div className={styles.group}>
-                    <label>Ano de nascimento</label>
-                    <input
-                      value={form.born_year}
-                      onChange={(e) => handleField("born_year", e.target.value)}
-                      placeholder="ex: 2018 ou Indeterminada"
-                    />
-                  </div>
-                )}
+                <div className={styles.group}>
+                  <label>Ano de nascimento</label>
+                  <input
+                    value={form.born_year}
+                    onChange={(e) => handleField("born_year", e.target.value)}
+                    placeholder={form.type === "gato" ? "ex: 2018 ou Indeterminada" : "ex: 2019 ou Indeterminada"}
+                  />
+                </div>
                 <div className={styles.group}>
                   <label>Estado</label>
                   <select

@@ -1,34 +1,50 @@
-import { Link } from 'react-router-dom'
-import styles from './AnimalCard.module.css'
+import { Link } from "react-router-dom";
+import styles from "./AnimalCard.module.css";
 
-const SIZE_LABEL = { pequeno: 'Pequeno', medio: 'Médio', grande: 'Grande' }
-const SIZE_CLASS = { pequeno: styles.sizeSmall, medio: styles.sizeMedium, grande: styles.sizeLarge }
+const SIZE_LABEL = { pequeno: "Pequeno", medio: "Médio", grande: "Grande" };
+const SIZE_CLASS = {
+  pequeno: styles.sizeSmall,
+  medio: styles.sizeMedium,
+  grande: styles.sizeLarge,
+};
 
 function getImageSrc(animal) {
-  if (animal.images && animal.images.length > 0) return animal.images[0]
-  if (animal.wix_img_url) return animal.wix_img_url
-  return null
+  if (animal.images && animal.images.length > 0) return animal.images[0];
+  if (animal.wix_img_url) return animal.wix_img_url;
+  return null;
 }
 
 export default function AnimalCard({ animal }) {
-  const imgSrc = getImageSrc(animal)
-  const typeLabel = animal.type === 'cao' ? 'Cão' : animal.type === 'gato' ? 'Gato' : '—'
+  const imgSrc = getImageSrc(animal);
+  const typeLabel =
+    animal.type === "cao" ? "Cão" : animal.type === "gato" ? "Gato" : "—";
 
   return (
     <article className={styles.card}>
       <Link to={`/animal/${animal.slug}`} className={styles.imageWrap}>
-        {imgSrc
-          ? <img src={imgSrc} alt={animal.name} loading="lazy"
-              onError={e => { e.target.style.display='none'; e.target.nextSibling.style.display='flex' }}
-            />
-          : null}
-        <div className={styles.placeholder} style={{ display: imgSrc ? 'none' : 'flex' }}>🐾</div>
+        {imgSrc ? (
+          <img
+            src={imgSrc}
+            alt={animal.name}
+            loading="lazy"
+            onError={(e) => {
+              e.target.style.display = "none";
+              e.target.nextSibling.style.display = "flex";
+            }}
+          />
+        ) : null}
+        <div
+          className={styles.placeholder}
+          style={{ display: imgSrc ? "none" : "flex" }}
+        >
+          🐾
+        </div>
         <div className={styles.badges}>
-          {animal.born_year && <span className={styles.badgeYear}>{animal.born_year}</span>}
-          {animal.size && animal.type !== 'gato' && <span className={`${styles.badge} ${SIZE_CLASS[animal.size]}`}>{SIZE_LABEL[animal.size]}</span>}
-          {animal.type === 'gato' && animal.fiv && (
-            <span className={`${styles.badge} ${animal.fiv === 'positivo' ? styles.fivPos : styles.fivNeg}`}>
-              FIV {animal.fiv === 'positivo' ? '+' : '−'}
+          {animal.born_year && (
+            <span className={styles.badgeYear}>
+              {animal.born_year === "Indeterminada"
+                ? "Indeterminado"
+                : animal.born_year}
             </span>
           )}
         </div>
@@ -40,9 +56,13 @@ export default function AnimalCard({ animal }) {
         </Link>
         <p className={styles.meta}>
           <span>{typeLabel}</span>
-          {animal.gender && <span>{animal.gender === 'Femea' ? 'Fêmea' : 'Macho'}</span>}
-          {animal.born_year && animal.born_year !== 'Indeterminada' && (
-            <span>{new Date().getFullYear() - parseInt(animal.born_year)} anos</span>
+          {animal.gender && (
+            <span>{animal.gender === "Femea" ? "Fêmea" : "Macho"}</span>
+          )}
+          {animal.born_year && animal.born_year !== "Indeterminada" && (
+            <span>
+              {new Date().getFullYear() - parseInt(animal.born_year)} anos
+            </span>
           )}
         </p>
         {animal.description && (
@@ -59,5 +79,5 @@ export default function AnimalCard({ animal }) {
         </Link>
       </div>
     </article>
-  )
+  );
 }
