@@ -35,6 +35,7 @@ export default function AdminPanel() {
   const [msg, setMsg] = useState("");
   const [imgFiles, setImgFiles] = useState([]);
   const [imgPreviews, setImgPreviews] = useState([]);
+  const [existingImages, setExistingImages] = useState([]);
   const [requests, setRequests] = useState([]);
   const [reqLoading, setReqLoading] = useState(false);
   const fileRef = useRef();
@@ -44,6 +45,7 @@ export default function AdminPanel() {
     setForm(EMPTY_FORM);
     setImgFiles([]);
     setImgPreviews([]);
+    setExistingImages([]);
     setMsg("");
     setView("form");
   }
@@ -62,7 +64,8 @@ export default function AdminPanel() {
       fiv: animal.fiv || "",
     });
     setImgFiles([]);
-    setImgPreviews(animal.images || []);
+    setImgPreviews([]);
+    setExistingImages(animal.images || []);
     setMsg("");
     setView("form");
   }
@@ -88,8 +91,11 @@ export default function AdminPanel() {
 
   function handleImages(e) {
     const files = Array.from(e.target.files);
-    setImgFiles(files);
-    setImgPreviews(files.map((f) => URL.createObjectURL(f)));
+    setImgFiles((prev) => [...prev, ...files]);
+    setImgPreviews((prev) => [
+      ...prev,
+      ...files.map((f) => URL.createObjectURL(f)),
+    ]);
   }
 
   async function uploadImages(animalId) {
@@ -120,7 +126,7 @@ export default function AdminPanel() {
     setMsg("");
 
     try {
-      let imageUrls = editing?.images || [];
+      let imageUrls = editing ? [...existingImages] : [];
 
       const payload = {
         ...form,
@@ -300,7 +306,11 @@ export default function AdminPanel() {
                   <input
                     value={form.born_year}
                     onChange={(e) => handleField("born_year", e.target.value)}
-                    placeholder={form.type === "gato" ? "ex: 2018 ou Indeterminada" : "ex: 2019 ou Indeterminada"}
+                    placeholder={
+                      form.type === "gato"
+                        ? "ex: 2018 ou Indeterminada"
+                        : "ex: 2019 ou Indeterminada"
+                    }
                   />
                 </div>
                 <div className={styles.group}>
@@ -343,10 +353,84 @@ export default function AdminPanel() {
                   >
                     📷 Escolher fotos
                   </button>
-                  {imgPreviews.length > 0 && (
+                  {(existingImages.length > 0 || imgPreviews.length > 0) && (
                     <div className={styles.previews}>
+                      {existingImages.map((src, i) => (
+                        <div
+                          key={`existing-${i}`}
+                          style={{
+                            position: "relative",
+                            display: "inline-block",
+                          }}
+                        >
+                          <img src={src} alt={`foto ${i}`} />
+                          <button
+                            type="button"
+                            title="Remover foto"
+                            onClick={() =>
+                              setExistingImages((p) =>
+                                p.filter((_, j) => j !== i),
+                              )
+                            }
+                            style={{
+                              position: "absolute",
+                              top: 2,
+                              right: 2,
+                              background: "rgba(44,42,40,.8)",
+                              color: "#fff",
+                              border: "none",
+                              borderRadius: "50%",
+                              width: 20,
+                              height: 20,
+                              fontSize: 10,
+                              cursor: "pointer",
+                              lineHeight: "20px",
+                              textAlign: "center",
+                              padding: 0,
+                            }}
+                          >
+                            ✕
+                          </button>
+                        </div>
+                      ))}
                       {imgPreviews.map((src, i) => (
-                        <img key={i} src={src} alt={`preview ${i}`} />
+                        <div
+                          key={`new-${i}`}
+                          style={{
+                            position: "relative",
+                            display: "inline-block",
+                          }}
+                        >
+                          <img src={src} alt={`nova foto ${i}`} />
+                          <button
+                            type="button"
+                            title="Remover foto"
+                            onClick={() => {
+                              setImgPreviews((p) =>
+                                p.filter((_, j) => j !== i),
+                              );
+                              setImgFiles((f) => f.filter((_, j) => j !== i));
+                            }}
+                            style={{
+                              position: "absolute",
+                              top: 2,
+                              right: 2,
+                              background: "rgba(44,42,40,.8)",
+                              color: "#fff",
+                              border: "none",
+                              borderRadius: "50%",
+                              width: 20,
+                              height: 20,
+                              fontSize: 10,
+                              cursor: "pointer",
+                              lineHeight: "20px",
+                              textAlign: "center",
+                              padding: 0,
+                            }}
+                          >
+                            ✕
+                          </button>
+                        </div>
                       ))}
                     </div>
                   )}
