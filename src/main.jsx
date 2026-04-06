@@ -15,6 +15,7 @@ import AnimalDetail from './pages/AnimalDetail'
 import AdminLogin from './pages/AdminLogin'
 import AdminPanel from './pages/AdminPanel'
 import ProtectedRoute from './components/ProtectedRoute'
+import Apoiar from './pages/Apoiar'
 
 const router = createBrowserRouter([
   {
@@ -23,6 +24,7 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <Home /> },
       { path: 'animal/:slug', element: <AnimalDetail /> },
+      { path: 'apoiar', element: <Apoiar /> },
       { path: 'admin/login', element: <AdminLogin /> },
       {
         path: 'admin',

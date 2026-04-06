@@ -1,8 +1,9 @@
 import { useState, useCallback, useEffect } from "react";
 import { useAnimals } from "../hooks/useAnimals";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams, useLocation } from "react-router-dom";
 import AnimalCard from "../components/AnimalCard";
 import styles from "./Home.module.css";
+
 
 const TYPE_OPTIONS = [
   { val: "todos", label: "Todos" },
@@ -23,6 +24,7 @@ const FIV_OPTIONS = [
 
 export default function Home() {
   const [searchParams] = useSearchParams();
+  const location = useLocation();
   const [type, setType] = useState(searchParams.get("type") || "todos");
   const [size, setSize] = useState("todos");
   const [fiv, setFiv] = useState("todos");
@@ -41,6 +43,20 @@ export default function Home() {
 
   const filters = { type, size, fiv, search };
   const { animals, loading } = useAnimals(filters);
+
+  useEffect(() => {
+    if (!location.hash || loading) return;
+    const id = location.hash.replace("#", "");
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        const el = document.getElementById(id);
+        if (el) {
+          const top = el.getBoundingClientRect().top + window.scrollY - 80;
+          window.scrollTo({ top, behavior: "smooth" });
+        }
+      });
+    });
+  }, [location.hash, loading]);
 
   const handleSearch = useCallback((e) => {
     setInputVal(e.target.value);
@@ -261,11 +277,7 @@ export default function Home() {
       </section>
 
       {/* ── SOBRE / CONTACTO ── */}
-      <section
-        className={styles.main}
-        id="sobre"
-        style={{ paddingBottom: "1rem" }}
-      >
+      <section className={styles.main} style={{ paddingBottom: "1rem" }}>
         <div className={styles.contactGrid} id="contacto">
           <div className={styles.contactCard}>
             <h3>📍 Onde estamos</h3>
@@ -294,7 +306,7 @@ export default function Home() {
             <h3>🌐 Redes sociais</h3>
             <p>
               <a
-                href="https://www.instagram.com"
+                href="https://www.instagram.com/abrigo_maozinhas/"
                 target="_blank"
                 rel="noreferrer"
               >
@@ -302,7 +314,7 @@ export default function Home() {
               </a>
               <br />
               <a
-                href="https://www.facebook.com"
+                href="https://www.facebook.com/VoluntariosAAAAMoita/"
                 target="_blank"
                 rel="noreferrer"
               >
@@ -310,7 +322,7 @@ export default function Home() {
               </a>
               <br />
               <a
-                href="https://www.youtube.com"
+                href="https://www.youtube.com/@aaaamoitaassociacaodosamig1273"
                 target="_blank"
                 rel="noreferrer"
               >

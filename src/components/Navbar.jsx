@@ -36,7 +36,12 @@ export default function Navbar() {
           <a href="/#como-adotar">Como Adotar</a>
         </li>
         <li>
-          <a href="/#sobre">Sobre</a>
+          <NavLink
+            to="/apoiar"
+            className={({ isActive }) => (isActive ? styles.active : "")}
+          >
+            Apoiar
+          </NavLink>
         </li>
         <li>
           <a href="/#contacto">Contacto</a>
