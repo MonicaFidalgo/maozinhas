@@ -276,43 +276,28 @@ export default function AdminPanel() {
                       <option value="grande">Grande</option>
                     </select>
                   </div>
-                  {form.type === "gato" ? (
-                    <div className={styles.group}>
-                      <label>FIV</label>
-                      <select
-                        value={form.fiv}
-                        onChange={(e) => handleField("fiv", e.target.value)}
-                      >
-                        <option value="">Desconhecido</option>
-                        <option value="negativo">FIV −</option>
-                        <option value="positivo">FIV +</option>
-                      </select>
-                    </div>
-                  ) : (
-                    <div className={styles.group}>
-                      <label>Ano de nascimento</label>
-                      <input
-                        value={form.born_year}
-                        onChange={(e) =>
-                          handleField("born_year", e.target.value)
-                        }
-                        placeholder="ex: 2019 ou Indeterminada"
-                      />
-                    </div>
-                  )}
+                  <div className={styles.group}>
+                    <label>Ano de nascimento</label>
+                    <input
+                      value={form.born_year}
+                      onChange={(e) => handleField("born_year", e.target.value)}
+                      placeholder="ex: 2019 ou Indeterminada"
+                    />
+                  </div>
                 </div>
-                <div className={styles.group}>
-                  <label>Ano de nascimento</label>
-                  <input
-                    value={form.born_year}
-                    onChange={(e) => handleField("born_year", e.target.value)}
-                    placeholder={
-                      form.type === "gato"
-                        ? "ex: 2018 ou Indeterminada"
-                        : "ex: 2019 ou Indeterminada"
-                    }
-                  />
-                </div>
+                {form.type === "gato" && (
+                  <div className={styles.group}>
+                    <label>FIV</label>
+                    <select
+                      value={form.fiv}
+                      onChange={(e) => handleField("fiv", e.target.value)}
+                    >
+                      <option value="">Desconhecido</option>
+                      <option value="negativo">FIV −</option>
+                      <option value="positivo">FIV +</option>
+                    </select>
+                  </div>
+                )}
                 <div className={styles.group}>
                   <label>Estado</label>
                   <select
