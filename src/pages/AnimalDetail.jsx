@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 import { useAnimal } from "../hooks/useAnimals";
 import { supabase } from "../lib/supabase";
 import styles from "./AnimalDetail.module.css";
@@ -38,6 +39,8 @@ export default function AnimalDetail() {
     );
 
   const images = getImages(animal);
+  const animalTypeLabel = animal.type === "cao" ? "cão" : "gato";
+  const animalGenderLabel = animal.gender === "Femea" ? "fêmea" : "macho";
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -64,6 +67,14 @@ export default function AnimalDetail() {
 
   return (
     <div className={styles.page}>
+      <Helmet>
+        <title>{animal.name} — Abrigo Mãozinhas</title>
+        <meta name="description" content={`Adopta o ${animal.name}, ${animalTypeLabel} ${animalGenderLabel} no Abrigo Mãozinhas, Alhos Vedros.`} />
+        <meta property="og:title" content={`${animal.name} — Abrigo Mãozinhas`} />
+        <meta property="og:description" content={animal.description?.slice(0, 160) || ''} />
+        <meta property="og:image" content={animal.images?.[0] || ''} />
+        <meta property="og:url" content={`https://maozinhas.pages.dev/animal/${animal.slug}`} />
+      </Helmet>
       <div className={styles.container}>
         {/* Breadcrumb */}
         <nav className={styles.breadcrumb}>
