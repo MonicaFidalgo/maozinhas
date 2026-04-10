@@ -8,15 +8,25 @@ export default function AcceptInvite() {
   const [confirm, setConfirm]     = useState('')
   const [loading, setLoading]     = useState(false)
   const [error, setError]         = useState('')
-  const [validInvite, setValidInvite] = useState(false)
+  const [ready, setReady]         = useState(false)
   const navigate = useNavigate()
 
   useEffect(() => {
     const hash = window.location.hash
-    if (hash.includes('type=invite') && hash.includes('access_token=')) {
-      setValidInvite(true)
+    const params = new URLSearchParams(hash.replace('#', ''))
+    const type = params.get('type')
+    const token = params.get('access_token')
+
+    if ((type === 'invite' || type === 'recovery') && token) {
+      setReady(true)
     } else {
-      setError('Link de convite inválido ou expirado.')
+      supabase.auth.getSession().then(({ data: { session } }) => {
+        if (session) {
+          setReady(true)
+        } else {
+          setError('Link inválido ou expirado.')
+        }
+      })
     }
   }, [])
 
@@ -50,7 +60,7 @@ export default function AcceptInvite() {
           <p>Bem-vinda ao Abrigo Mãozinhas. Define a tua password para activar a conta.</p>
         </div>
 
-        {validInvite ? (
+        {ready ? (
           <form onSubmit={handleSubmit} className={styles.form}>
             <div className={styles.group}>
               <label>Nova password</label>
