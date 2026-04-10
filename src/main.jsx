@@ -17,6 +17,7 @@ import AdminLogin from './pages/AdminLogin'
 import AdminPanel from './pages/AdminPanel'
 import ProtectedRoute from './components/ProtectedRoute'
 import Apoiar from './pages/Apoiar'
+import AcceptInvite from './pages/AcceptInvite'
 
 const router = createBrowserRouter([
   {
@@ -27,6 +28,7 @@ const router = createBrowserRouter([
       { path: 'animal/:slug', element: <AnimalDetail /> },
       { path: 'apoiar', element: <Apoiar /> },
       { path: 'admin/login', element: <AdminLogin /> },
+      { path: 'accept-invite', element: <AcceptInvite /> },
       {
         path: 'admin',
         element: <ProtectedRoute />,
