@@ -19,13 +19,13 @@ export default function Apoiar() {
           <h3>Transferência bancária / MBWay</h3>
           <dl className={styles.dl}>
             <dt>NIB</dt>
-            <dd>0035 0552 0000 8179 3303 4</dd>
+            <dd>0033 0000 4555 7501 4120 5</dd>
             <dt>IBAN</dt>
-            <dd>PT50 0035 0552 0000 8179 3303 4</dd>
+            <dd>PT50 0033 0000 4555 7501 4120 5</dd>
             <dt>BIC / SWIFT</dt>
-            <dd>CGDIPTPL</dd>
+            <dd>BCOMPTPL</dd>
             <dt>MBWay</dt>
-            <dd>913 124 611</dd>
+            <dd>913 124 611 / 915 223 616</dd>
           </dl>
         </div>
 
@@ -38,7 +38,9 @@ export default function Apoiar() {
             <li>Farmácia de Alhos Vedros — Alhos Vedros</li>
             <li>Junta de Freguesia da Moita — Moita</li>
             <li>Junta de Freguesia de Alhos Vedros — Alhos Vedros</li>
-            <li>Sede dos Voluntários — R. Cândido dos Reis 107, Alhos Vedros</li>
+            <li>
+              Sede dos Voluntários — R. Cândido dos Reis 107, Alhos Vedros
+            </li>
           </ul>
         </div>
       </section>
