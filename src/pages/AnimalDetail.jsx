@@ -2,10 +2,14 @@ import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { useAnimal } from "../hooks/useAnimals";
-import { supabase } from "../lib/supabase";
 import styles from "./AnimalDetail.module.css";
 
 const SIZE_LABEL = { pequeno: "Pequeno", medio: "Médio", grande: "Grande" };
+
+const ADOPTION_FORMS = {
+  cao: "https://docs.google.com/forms/d/e/1FAIpQLScSoagqPU8t8HtiL2P1zvhQOeMuOmimizLa4g-eA7msqYJjQg/viewform?usp=pp_url&entry.610170515=",
+  gato: "https://docs.google.com/forms/d/e/1FAIpQLSeMmgSK6_EOe2AsPaqIMaZoiFIT4BJK75X2-MR41HJhBl7X-g/viewform?usp=pp_url&entry.1131099540=",
+};
 
 function getImages(animal) {
   const imgs = [];
@@ -19,15 +23,6 @@ export default function AnimalDetail() {
   const { slug } = useParams();
   const { animal, loading, error } = useAnimal(slug);
   const [activeImg, setActiveImg] = useState(0);
-  const [form, setForm] = useState({
-    name: "",
-    phone: "",
-    email: "",
-    message: "",
-  });
-  const [sending, setSending] = useState(false);
-  const [sent, setSent] = useState(false);
-  const [formError, setFormError] = useState("");
 
   if (loading) return <div className={styles.loading}>A carregar…</div>;
   if (error || !animal)
@@ -41,29 +36,10 @@ export default function AnimalDetail() {
   const images = getImages(animal);
   const animalTypeLabel = animal.type === "cao" ? "cão" : "gato";
   const animalGenderLabel = animal.gender === "Femea" ? "fêmea" : "macho";
-
-  async function handleSubmit(e) {
-    e.preventDefault();
-    if (!form.name || !form.phone || !form.email) {
-      setFormError("Por favor preenche o nome, telemóvel e email.");
-      return;
-    }
-    setSending(true);
-    setFormError("");
-    const { error } = await supabase.from("adoption_requests").insert({
-      animal_id: animal.id,
-      animal_name: animal.name,
-      ...form,
-    });
-    setSending(false);
-    if (error) {
-      setFormError(
-        "Erro ao enviar. Tenta novamente ou contacta-nos pelo telemóvel.",
-      );
-    } else {
-      setSent(true);
-    }
-  }
+  const animalArticle = animal.gender === "Femea" ? "a" : "o";
+  const adoptionUrl = ADOPTION_FORMS[animal.type]
+    ? ADOPTION_FORMS[animal.type] + encodeURIComponent(animal.name)
+    : null;
 
   return (
     <div className={styles.page}>
@@ -131,7 +107,7 @@ export default function AnimalDetail() {
               {animal.born_year && (
                 <span className={styles.tag}>
                   {animal.born_year !== "Indeterminada"
-                    ? `Nascido em ${animal.born_year}`
+                    ? `Nasceu em ${animal.born_year}`
                     : "Ano indeterminado"}
                 </span>
               )}
@@ -163,7 +139,7 @@ export default function AnimalDetail() {
 
             <hr className={styles.divider} />
 
-            {/* Adoption Form */}
+            {/* Adoption CTA */}
             {animal.status !== "disponivel" ? (
               <div className={styles.unavailable}>
                 <p>
@@ -174,83 +150,31 @@ export default function AnimalDetail() {
                   Ver outros patudos
                 </Link>
               </div>
-            ) : sent ? (
-              <div className={styles.success}>
-                <span>💛</span>
-                <h3>Pedido enviado!</h3>
-                <p>
-                  Obrigada pelo interesse no {animal.name}! A Cátia ou outra
-                  voluntária entrará em contacto brevemente.
-                </p>
-                <Link to="/">← Ver mais patudos</Link>
-              </div>
             ) : (
-              <form className={styles.form} onSubmit={handleSubmit}>
-                <h3>Quero adotar o {animal.name} 🐾</h3>
-                <div className={styles.formRow}>
-                  <div className={styles.formGroup}>
-                    <label>Nome *</label>
-                    <input
-                      type="text"
-                      placeholder="O teu nome completo"
-                      value={form.name}
-                      onChange={(e) =>
-                        setForm((f) => ({ ...f, name: e.target.value }))
-                      }
-                    />
-                  </div>
-                  <div className={styles.formGroup}>
-                    <label>Telemóvel *</label>
-                    <input
-                      type="tel"
-                      placeholder="9XX XXX XXX"
-                      value={form.phone}
-                      onChange={(e) =>
-                        setForm((f) => ({ ...f, phone: e.target.value }))
-                      }
-                    />
-                  </div>
-                </div>
-                <div className={styles.formGroup}>
-                  <label>Email *</label>
-                  <input
-                    type="email"
-                    placeholder="o.teu@email.com"
-                    value={form.email}
-                    onChange={(e) =>
-                      setForm((f) => ({ ...f, email: e.target.value }))
-                    }
-                  />
-                </div>
-                <div className={styles.formGroup}>
-                  <label>
-                    Mensagem{" "}
-                    <span style={{ fontWeight: 400, color: "var(--mid)" }}>
-                      (opcional)
-                    </span>
-                  </label>
-                  <textarea
-                    placeholder="Conta-nos um pouco sobre ti, a tua casa, outros animais…"
-                    rows={3}
-                    value={form.message}
-                    onChange={(e) =>
-                      setForm((f) => ({ ...f, message: e.target.value }))
-                    }
-                  />
-                </div>
-                {formError && <p className={styles.formError}>{formError}</p>}
-                <button
-                  type="submit"
-                  className={styles.btnSubmit}
-                  disabled={sending}
-                >
-                  {sending ? "A enviar…" : "Enviar pedido de adoção 💛"}
-                </button>
-                <p className={styles.formNote}>
-                  A Cátia ou outra voluntária entrará em contacto contigo em
-                  breve.
+              <div className={styles.adoptCta}>
+                <h3>Quero adotar {animalArticle} {animal.name} 🐾</h3>
+                <p>
+                  Preenche a nossa pré-candidatura — demora cerca de 5 minutos
+                  e ajuda-nos a conhecer-te melhor. O nome do {animalTypeLabel} já vai pré-preenchido.
                 </p>
-              </form>
+                {adoptionUrl ? (
+                  <a
+                    href={adoptionUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className={styles.btnSubmit}
+                  >
+                    Preencher pré-candidatura 💛
+                  </a>
+                ) : (
+                  <a href="/#contacto" className={styles.btnSubmit}>
+                    Contacta-nos 💛
+                  </a>
+                )}
+                <p className={styles.formNote}>
+                  A Cátia ou outra voluntária entrará em contacto após análise da candidatura.
+                </p>
+              </div>
             )}
           </div>
         </div>

@@ -28,7 +28,7 @@ function slugify(str) {
 export default function AdminPanel() {
   const { profile } = useAuth();
   const { animals, loading, refetch } = useAdminAnimals();
-  const [view, setView] = useState("list"); // 'list' | 'form' | 'requests'
+  const [view, setView] = useState("list"); // 'list' | 'form'
   const [editing, setEditing] = useState(null); // animal obj or null
   const [form, setForm] = useState(EMPTY_FORM);
   const [saving, setSaving] = useState(false);
@@ -36,8 +36,6 @@ export default function AdminPanel() {
   const [imgFiles, setImgFiles] = useState([]);
   const [imgPreviews, setImgPreviews] = useState([]);
   const [existingImages, setExistingImages] = useState([]);
-  const [requests, setRequests] = useState([]);
-  const [reqLoading, setReqLoading] = useState(false);
   const fileRef = useRef();
 
   function openAdd() {
@@ -68,17 +66,6 @@ export default function AdminPanel() {
     setExistingImages(animal.images || []);
     setMsg("");
     setView("form");
-  }
-
-  async function loadRequests() {
-    setReqLoading(true);
-    const { data } = await supabase
-      .from("adoption_requests")
-      .select("*")
-      .order("created_at", { ascending: false });
-    setRequests(data || []);
-    setReqLoading(false);
-    setView("requests");
   }
 
   function handleField(k, v) {
@@ -185,12 +172,6 @@ export default function AdminPanel() {
     await refetch();
   }
 
-  async function updateRequest(id, status) {
-    await supabase.from("adoption_requests").update({ status }).eq("id", id);
-    setRequests((r) =>
-      r.map((req) => (req.id === id ? { ...req, status } : req)),
-    );
-  }
 
   const isAdmin = profile?.role === "admin";
   const statusCount = { disponivel: 0, reservado: 0, adotado: 0 };
@@ -449,72 +430,6 @@ export default function AdminPanel() {
       </div>
     );
 
-  // ── REQUESTS VIEW ──
-  if (view === "requests")
-    return (
-      <div className={styles.page}>
-        <div className={styles.container}>
-          <div className={styles.topBar}>
-            <button className={styles.backBtn} onClick={() => setView("list")}>
-              ← Voltar
-            </button>
-            <h1>Pedidos de Adoção</h1>
-          </div>
-          {reqLoading ? (
-            <p>A carregar…</p>
-          ) : requests.length === 0 ? (
-            <p style={{ color: "var(--mid)" }}>Nenhum pedido ainda.</p>
-          ) : (
-            <div className={styles.requestsList}>
-              {requests.map((r) => (
-                <div key={r.id} className={styles.requestCard}>
-                  <div className={styles.reqTop}>
-                    <div>
-                      <strong>{r.name}</strong>
-                      <span
-                        className={`${styles.reqStatus} ${styles["req_" + r.status]}`}
-                      >
-                        {r.status}
-                      </span>
-                    </div>
-                    <span className={styles.reqAnimal}>→ {r.animal_name}</span>
-                  </div>
-                  <div className={styles.reqMeta}>
-                    <a href={`tel:${r.phone}`}>{r.phone}</a>
-                    <a href={`mailto:${r.email}`}>{r.email}</a>
-                    <span>
-                      {new Date(r.created_at).toLocaleDateString("pt-PT")}
-                    </span>
-                  </div>
-                  {r.message && <p className={styles.reqMsg}>"{r.message}"</p>}
-                  <div className={styles.reqActions}>
-                    <button
-                      onClick={() => updateRequest(r.id, "contactado")}
-                      className={styles.reqBtn}
-                    >
-                      Contactado
-                    </button>
-                    <button
-                      onClick={() => updateRequest(r.id, "aprovado")}
-                      className={`${styles.reqBtn} ${styles.reqApprove}`}
-                    >
-                      Aprovado
-                    </button>
-                    <button
-                      onClick={() => updateRequest(r.id, "recusado")}
-                      className={`${styles.reqBtn} ${styles.reqReject}`}
-                    >
-                      Recusado
-                    </button>
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-      </div>
-    );
-
   // ── LIST VIEW ──
   return (
     <div className={styles.page}>
@@ -522,9 +437,6 @@ export default function AdminPanel() {
         <div className={styles.topBar}>
           <h1>Painel — {profile?.name || profile?.email}</h1>
           <div className={styles.topActions}>
-            <button className={styles.reqsBtn} onClick={loadRequests}>
-              📋 Pedidos de adoção
-            </button>
             <button className={styles.addBtn} onClick={openAdd}>
               + Adicionar animal
             </button>
