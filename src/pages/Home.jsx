@@ -69,8 +69,6 @@ export default function Home() {
     <>
       {/* ── HERO ── */}
       <section className={styles.hero}>
-        <div className={styles.heroBg} />
-        <div className={styles.heroPattern} />
         <div className={styles.heroContent}>
           <span className={styles.eyebrow}>🏡 Moita, Setúbal · Desde 2019</span>
           <h1>
@@ -90,6 +88,9 @@ export default function Home() {
               Como funciona →
             </a>
           </div>
+        </div>
+        <div className={styles.heroImage}>
+          <img src="/mascote.jpg" alt="Mascote do Abrigo Mãozinhas" />
         </div>
       </section>
 
