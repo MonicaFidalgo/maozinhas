@@ -31,7 +31,12 @@
   border-top: 1px solid rgba(253,248,242,.1);
   font-size: .78rem; color: rgba(253,248,242,.4);
   text-align: center;
+  display: flex; flex-direction: column; gap: .4rem;
 }
+.credit { font-size: .72rem; color: rgba(253,248,242,.25); }
+.credit a { color: rgba(253,248,242,.35); text-decoration: none; transition: color .15s; }
+.credit:hover a { color: #F5A484; }
+.heart { color: #F5A484; }
 @media (max-width: 700px) {
   .inner { grid-template-columns: 1fr; gap: 2rem; }
 }

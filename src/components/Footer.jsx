@@ -60,6 +60,12 @@ export default function Footer() {
           © 2019–{new Date().getFullYear()} Voluntários do Abrigo da Mãozinhas ·
           Todos os direitos reservados
         </span>
+        <span className={styles.credit}>
+          feito com <span className={styles.heart}>♥</span> por{" "}
+          <a href="https://monicafidalgo.dev/" target="_blank" rel="noreferrer">
+            Mónica Fidalgo
+          </a>
+        </span>
       </div>
     </footer>
   );
