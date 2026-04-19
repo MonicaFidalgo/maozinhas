@@ -36,3 +36,5 @@
 .btn:hover:not(:disabled) { background: var(--terra-dark); }
 .btn:disabled { opacity: .6; cursor: not-allowed; }
 .note { font-size: .78rem; color: var(--mid); text-align: center; margin-top: 1.25rem; }
+.forgotLink { font-size: .78rem; color: var(--mid); text-decoration: none; display: block; }
+.forgotLink:hover { color: var(--terra); }

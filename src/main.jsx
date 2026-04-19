@@ -18,6 +18,7 @@ import AdminPanel from './pages/AdminPanel'
 import ProtectedRoute from './components/ProtectedRoute'
 import Apoiar from './pages/Apoiar'
 import AcceptInvite from './pages/AcceptInvite'
+import ForgotPassword from './pages/ForgotPassword'
 
 const router = createBrowserRouter([
   {
@@ -29,6 +30,7 @@ const router = createBrowserRouter([
       { path: 'apoiar', element: <Apoiar /> },
       { path: 'admin/login', element: <AdminLogin /> },
       { path: 'accept-invite', element: <AcceptInvite /> },
+      { path: 'forgot-password', element: <ForgotPassword /> },
       {
         path: 'admin',
         element: <ProtectedRoute />,

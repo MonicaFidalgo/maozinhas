@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
 import styles from './AdminLogin.module.css'
 
@@ -47,6 +47,9 @@ export default function AdminLogin() {
           <button type="submit" disabled={loading} className={styles.btn}>
             {loading ? 'A entrar…' : 'Entrar'}
           </button>
+          <Link to="/forgot-password" className={styles.forgotLink} style={{ textAlign: 'center' }}>
+            Esqueceste a password?
+          </Link>
         </form>
 
         <p className={styles.note}>

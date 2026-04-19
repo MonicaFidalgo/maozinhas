@@ -9,6 +9,7 @@ export default function AcceptInvite() {
   const [loading, setLoading]     = useState(false)
   const [error, setError]         = useState('')
   const [ready, setReady]         = useState(false)
+  const [isRecovery, setIsRecovery] = useState(false)
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -18,6 +19,7 @@ export default function AcceptInvite() {
     const token = params.get('access_token')
 
     if ((type === 'invite' || type === 'recovery') && token) {
+      setIsRecovery(type === 'recovery')
       setReady(true)
     } else {
       supabase.auth.getSession().then(({ data: { session } }) => {
@@ -56,8 +58,11 @@ export default function AcceptInvite() {
       <div className={styles.card}>
         <div className={styles.header}>
           <span className={styles.paw}>🐾</span>
-          <h1>Definir Password</h1>
-          <p>Bem-vinda ao Abrigo Mãozinhas. Define a tua password para activar a conta.</p>
+          <h1>{isRecovery ? 'Nova Password' : 'Definir Password'}</h1>
+          <p>{isRecovery
+            ? 'Define a tua nova password para recuperar o acesso.'
+            : 'Bem-vinda ao Abrigo Mãozinhas. Define a tua password para activar a conta.'
+          }</p>
         </div>
 
         {ready ? (
@@ -85,7 +90,7 @@ export default function AcceptInvite() {
             </div>
             {error && <p className={styles.error}>{error}</p>}
             <button type="submit" disabled={loading} className={styles.btn}>
-              {loading ? 'A guardar…' : 'Activar conta'}
+              {loading ? 'A guardar…' : isRecovery ? 'Guardar password' : 'Activar conta'}
             </button>
           </form>
         ) : (

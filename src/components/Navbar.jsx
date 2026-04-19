@@ -58,7 +58,11 @@ export default function Navbar() {
               Sair
             </button>
           </>
-        ) : null}
+        ) : (
+          <Link to="/admin/login" className={styles.loginBtn}>
+            Entrar
+          </Link>
+        )}
       </div>
     </nav>
   );
