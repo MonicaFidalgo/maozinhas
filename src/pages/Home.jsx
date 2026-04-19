@@ -113,6 +113,25 @@ export default function Home() {
         </div>
       </div>
 
+      {/* ── VÍDEO ── */}
+      <section className={styles.videoSection}>
+        <div className={styles.main}>
+          <div className={styles.sectionHeader}>
+            <span className={styles.sectionTag}>O Nosso Abrigo</span>
+            <h2>Conhece o Abrigo Mãozinhas</h2>
+            <p>Um espaço cheio de amor gerido inteiramente por voluntárias em Alhos Vedros.</p>
+          </div>
+          <div className={styles.videoWrapper}>
+            <iframe
+              src="https://www.youtube.com/embed/p6rUavn5iTA"
+              title="Abrigo Mãozinhas"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
+          </div>
+        </div>
+      </section>
+
       {/* ── PATUDOS ── */}
       <main className={styles.main} id="patudos">
         <div className={styles.sectionHeader}>
