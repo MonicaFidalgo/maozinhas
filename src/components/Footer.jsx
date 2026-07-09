@@ -18,7 +18,9 @@ export default function Footer() {
             <li>2860 Alhos Vedros, Moita</li>
             <li>📞 913 124 611</li>
             <li>
-              <a href="mailto:aaaamoita@gmail.com">aaaamoita@gmail.com</a>
+              <a href="mailto:adoptarnamoita@gmail.com">
+                adoptarnamoita@gmail.com
+              </a>
             </li>
           </ul>
         </div>
