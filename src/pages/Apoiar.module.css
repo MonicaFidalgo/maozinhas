@@ -107,6 +107,29 @@
   word-break: break-all;
 }
 
+.ibanRow {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.copyBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--green);
+  padding: 0.2rem;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  transition: color 0.15s, background 0.15s;
+}
+
+.copyBtn:hover {
+  color: var(--charcoal);
+  background: var(--border);
+}
+
 /* List */
 .list {
   list-style: none;

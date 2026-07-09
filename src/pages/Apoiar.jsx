@@ -1,6 +1,17 @@
+import { useState } from "react";
 import styles from "./Apoiar.module.css";
+import IconCopy from "../components/icons/IconCopy";
+import IconCheck from "../components/icons/IconCheck";
 
 export default function Apoiar() {
+  const [copied, setCopied] = useState(false);
+
+  function handleCopy() {
+    navigator.clipboard.writeText("PT50003300004555750141205");
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  }
+
   return (
     <div className={styles.page}>
       <section className={styles.hero}>
@@ -21,7 +32,12 @@ export default function Apoiar() {
             <dt>NIB</dt>
             <dd>0033 0000 4555 7501 4120 5</dd>
             <dt>IBAN</dt>
-            <dd>PT50 0033 0000 4555 7501 4120 5</dd>
+            <dd className={styles.ibanRow}>
+              PT50 0033 0000 4555 7501 4120 5
+              <button onClick={handleCopy} className={styles.copyBtn} title="Copiar IBAN" aria-label="Copiar IBAN">
+                {copied ? <IconCheck /> : <IconCopy />}
+              </button>
+            </dd>
             <dt>BIC / SWIFT</dt>
             <dd>BCOMPTPL</dd>
             <dt>MBWay</dt>
