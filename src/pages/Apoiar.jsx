@@ -32,15 +32,13 @@ export default function Apoiar() {
         <div className={styles.card}>
           <h3>Pontos de recolha de donativos</h3>
           <ul className={styles.list}>
-            <li>Clínica Veterinária da Moita — Moita</li>
-            <li>Clínica Veterinária de Alhos Vedros — Alhos Vedros</li>
-            <li>Farmácia Central da Moita — Moita</li>
-            <li>Farmácia de Alhos Vedros — Alhos Vedros</li>
-            <li>Junta de Freguesia da Moita — Moita</li>
-            <li>Junta de Freguesia de Alhos Vedros — Alhos Vedros</li>
-            <li>
-              Sede dos Voluntários — R. Cândido dos Reis 107, Alhos Vedros
-            </li>
+            <li><strong>Clínica veterinária BBVET</strong> (Rua 26 de Janeiro, nº66, Baixa da Banheira)</li>
+            <li><strong>Hospital Veterinário Sul do Tejo</strong> (Rua Manuel Vasques, Lj. 10 A-B, 2830-535 Santo André, Barreiro)</li>
+            <li><strong>Clínica Vip Pets Lowcost Barreiro</strong> (R. Dr. Manuel Pacheco Nobre 17, 2830-080 Barreiro)</li>
+            <li><strong>Churrasqueira Galináceo</strong> (R. Diogo Cão nr 7, 2830-082 Barreiro)</li>
+            <li><strong>PetsGoZen</strong> (Estrada Municipal 510 9B, 2835-490 Santo António da Charneca)</li>
+            <li><strong>3 corações e 1/2 - Snack-Bar</strong> (Urbanização, Escavadeira, Praceta João Azevedo 2, 2830-527 Barreiro)</li>
+            <li><strong>Tons de Café</strong> (Rua Calouste Gulbenkian N°109, 2830-046 Barreiro)</li>
           </ul>
         </div>
       </section>
@@ -54,7 +52,7 @@ export default function Apoiar() {
           novos donos para estes artigos — e para os nossos patudos!
         </p>
         <a
-          href="https://www.facebook.com/VoluntariosAAAAMoita/"
+          href="https://www.facebook.com/Lojasolidariaaaamoita"
           target="_blank"
           rel="noreferrer"
           className={styles.cta}
